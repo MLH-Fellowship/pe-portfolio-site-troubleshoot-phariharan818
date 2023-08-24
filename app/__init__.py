@@ -6,13 +6,14 @@ from peewee import *
 from playhouse.shortcuts import model_to_dict
 
 load_dotenv()
-app = Flask(__name__)
+app = Flask(__name__, template_folder="../templates", static_folder="../static")
 
 if os.getenv("TESTING") == "true":
     print("Running in test mode")
     mydb = SqliteDatabase('file:memory?mode=memory&cache=shared', uri=True)
 else:
-    mydb = MySQLDatabase(os.getenv("MYSQL_DATABASE"),
+    mydb = MySQLDatabase(
+        os.getenv("MYSQL_DATABASE"),
         user=os.getenv("MYSQL_USER"),
         password=os.getenv("MYSQL_PASSWORD"),
         host=os.getenv("MYSQL_HOST"),
@@ -39,7 +40,7 @@ def index():
 
 @app.route('/timeline')
 def timeline():
-    return rendertemplate('timeline.html', title="Timeline", url=os.getenv("URL"))
+    return render_template('timeline.html', title="Timeline", url=os.getenv("URL"))
 
 @app.route('/api/timeline_post', methods=['POST'])
 def post_time_line_post():
