@@ -30,7 +30,6 @@ class TimelinePost(Model):
     class Meta:
         database = mydb
 
-mydb.commit()
 mydb.connect()
 mydb.create_tables([TimelinePost])
 
